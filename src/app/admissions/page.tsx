@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
@@ -6,7 +7,7 @@ import { createMetadata } from "@/lib/seo";
 export const metadata = createMetadata({
   title: "Admissions",
   description:
-    "Admissions at Pine Crest School Ruiru — requirements, process, and how to apply for Play Group through Grade 9.",
+    "Admissions at Pine Crest School Ruiru — requirements, process, and how to apply for Play Group through Grade 9. Limited spaces available.",
   path: "/admissions",
   keywords: ["school admissions Ruiru", "apply Pine Crest School"],
 });
@@ -50,18 +51,36 @@ export default function AdmissionsPage() {
         title="Admissions"
         description="Join the Pine Crest family — admissions are ongoing for all levels."
       />
-      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbs} />
-        <div className="mb-12 rounded-2xl bg-amber-50 p-8 text-center">
-          <h2 className="font-serif text-2xl font-bold text-green-950">Admissions Are Open</h2>
-          <p className="mt-4 text-slate-600">
-            We welcome applications for Play Group, Pre-Primary (PP1–PP2), Primary (Grades 1–6),
-            and Junior School (Grades 7–9).
-          </p>
-          <div className="mt-6">
-            <Button href="/admissions/apply" size="lg">
-              Apply Online Now
-            </Button>
+
+        <div className="mb-12 grid items-center gap-8 lg:grid-cols-2">
+          <div className="rounded-2xl bg-amber-50 p-8 text-center lg:text-left">
+            <p className="text-sm font-semibold uppercase tracking-widest text-amber-700">
+              Limited Spaces Available
+            </p>
+            <h2 className="mt-2 font-serif text-3xl font-bold text-green-950">
+              Admissions Ongoing
+            </h2>
+            <p className="mt-4 text-slate-600">
+              From Play Group to Junior School (Grades 7–9). Give your child a firm foundation in a
+              modern, values-based learning environment with computer and science laboratories.
+            </p>
+            <div className="mt-6">
+              <Button href="/admissions/apply" size="lg">
+                Apply Online Now
+              </Button>
+            </div>
+          </div>
+          <div className="relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl border border-green-100 shadow-lg">
+            <Image
+              src="/images/admissions-flyer.jpg"
+              alt="Pine Crest School admissions flyer — modern laboratories for modern learners"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 640px) 100vw, 384px"
+              priority
+            />
           </div>
         </div>
 

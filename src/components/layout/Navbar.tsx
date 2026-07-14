@@ -2,20 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { NAV_ITEMS, SCHOOL } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
+import { Logo } from "@/components/ui/Logo";
 
 export function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
-  useEffect(() => {
-    setMobileOpen(false);
-    setOpenDropdown(null);
-  }, [pathname]);
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
   const toggleMobile = useCallback(() => setMobileOpen((prev) => !prev), []);
@@ -38,14 +34,20 @@ export function Navbar() {
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            closeMenu();
+            closeMobile();
+          }
+        }}
       >
         <Link href="/" prefetch className="group flex items-center gap-3" onClick={closeMobile}>
-          <div
-            className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-800 text-lg font-bold text-amber-400 shadow-lg transition-transform group-hover:scale-105"
-            aria-hidden
-          >
-            PC
-          </div>
+          <Logo
+            variant="crest"
+            className="h-12 w-auto transition-transform group-hover:scale-105"
+            priority
+            sizes="52px"
+          />
           <div className="hidden sm:block">
             <p className="font-serif text-lg font-bold leading-tight text-green-900">
               {SCHOOL.name}
@@ -57,10 +59,16 @@ export function Navbar() {
         <ul className="hidden items-center gap-1 lg:flex">
           {NAV_ITEMS.map((item) =>
             "children" in item && item.children ? (
-              <li key={item.label} className="relative">
+              <li
+                key={item.label}
+                className="relative"
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) closeMenu();
+                }}
+              >
                 <button
                   type="button"
-                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-green-50 ${
+                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 ${
                     pathname.startsWith(item.href) ? "text-green-800" : "text-slate-700"
                   }`}
                   onMouseEnter={() => openMenu(item.label)}
@@ -68,6 +76,7 @@ export function Navbar() {
                   onClick={() => toggleMenu(item.label)}
                   aria-expanded={openDropdown === item.label}
                   aria-haspopup="true"
+                  aria-controls={`desktop-menu-${item.label.toLowerCase().replaceAll(" ", "-")}`}
                 >
                   {item.label}
                   <ChevronDown className="h-4 w-4" aria-hidden />
@@ -77,15 +86,15 @@ export function Navbar() {
                     className="absolute left-0 top-full z-50 min-w-[220px] rounded-xl border border-green-100 bg-white p-2 shadow-xl"
                     onMouseEnter={() => openMenu(item.label)}
                     onMouseLeave={closeMenu}
-                    role="menu"
+                    id={`desktop-menu-${item.label.toLowerCase().replaceAll(" ", "-")}`}
                   >
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
                         href={child.href}
                         prefetch
-                        role="menuitem"
                         className="block rounded-lg px-4 py-2.5 text-sm text-slate-700 transition-colors hover:bg-green-50 hover:text-green-800"
+                        onClick={closeMenu}
                       >
                         {child.label}
                       </Link>
@@ -117,11 +126,11 @@ export function Navbar() {
 
         <button
           type="button"
-          className="rounded-lg p-2 text-green-900 lg:hidden"
+          className="rounded-lg p-2 text-green-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 lg:hidden"
           onClick={toggleMobile}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
-          aria-controls="mobile-nav"
+          aria-controls={mobileOpen ? "mobile-nav" : undefined}
         >
           {mobileOpen ? <X className="h-6 w-6" aria-hidden /> : <Menu className="h-6 w-6" aria-hidden />}
         </button>

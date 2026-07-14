@@ -10,10 +10,13 @@ const ContactForm = dynamic(
   () => import("@/components/forms/ContactForm").then((m) => m.ContactForm),
   {
     loading: () => (
-      <div className="space-y-4" aria-hidden>
-        <div className="h-12 animate-pulse rounded-xl bg-slate-100" />
-        <div className="h-12 animate-pulse rounded-xl bg-slate-100" />
-        <div className="h-32 animate-pulse rounded-xl bg-slate-100" />
+      <div role="status">
+        <span className="sr-only">Loading contact form…</span>
+        <div className="space-y-4" aria-hidden>
+          <div className="h-12 animate-pulse rounded-xl bg-slate-100" />
+          <div className="h-12 animate-pulse rounded-xl bg-slate-100" />
+          <div className="h-32 animate-pulse rounded-xl bg-slate-100" />
+        </div>
       </div>
     ),
   },
@@ -46,14 +49,14 @@ export default function ContactPage() {
             <h2 className="font-serif text-2xl font-bold text-green-950">Get in Touch</h2>
             <ul className="mt-8 space-y-6">
               <li className="flex gap-4">
-                <MapPin className="h-6 w-6 shrink-0 text-green-700" />
+                <MapPin className="h-6 w-6 shrink-0 text-green-700" aria-hidden />
                 <div>
                   <p className="font-medium text-green-950">Address</p>
                   <p className="text-slate-600">{SCHOOL.address}</p>
                 </div>
               </li>
               <li className="flex gap-4">
-                <Phone className="h-6 w-6 shrink-0 text-green-700" />
+                <Phone className="h-6 w-6 shrink-0 text-green-700" aria-hidden />
                 <div>
                   <p className="font-medium text-green-950">Phone</p>
                   {SCHOOL.phones.map((phone) => (
@@ -68,7 +71,7 @@ export default function ContactPage() {
                 </div>
               </li>
               <li className="flex gap-4">
-                <Mail className="h-6 w-6 shrink-0 text-green-700" />
+                <Mail className="h-6 w-6 shrink-0 text-green-700" aria-hidden />
                 <div>
                   <p className="font-medium text-green-950">Email</p>
                   <a
@@ -80,7 +83,7 @@ export default function ContactPage() {
                 </div>
               </li>
               <li className="flex gap-4">
-                <Clock className="h-6 w-6 shrink-0 text-green-700" />
+                <Clock className="h-6 w-6 shrink-0 text-green-700" aria-hidden />
                 <div>
                   <p className="font-medium text-green-950">School Hours</p>
                   <p className="text-slate-600">{SCHOOL.hours}</p>

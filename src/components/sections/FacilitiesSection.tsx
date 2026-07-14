@@ -1,11 +1,11 @@
-import { Bus, Monitor, School, Trophy, Utensils } from "lucide-react";
+import { Bus, FlaskConical, Monitor, Trophy, Utensils } from "lucide-react";
 import { FACILITIES } from "@/lib/constants";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const iconMap = {
   bus: Bus,
   trophy: Trophy,
-  school: School,
+  school: FlaskConical,
   monitor: Monitor,
   utensils: Utensils,
 };
@@ -28,7 +28,7 @@ export function FacilitiesSection() {
                 className="flex gap-4 rounded-2xl border border-green-100 bg-white p-6 shadow-sm"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-100 text-green-800">
-                  <Icon className="h-6 w-6" />
+                  <Icon className="h-6 w-6" aria-hidden />
                 </div>
                 <div>
                   <h3 className="font-semibold text-green-950">{facility.title}</h3>

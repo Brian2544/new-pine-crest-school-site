@@ -33,7 +33,7 @@ export default function PrePrimaryPage() {
       />
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbs} />
-        <div className="prose prose-lg max-w-none">
+        <div className="max-w-none space-y-6 text-lg leading-relaxed">
           <p className="text-slate-600">
             Our Pre-Primary programme provides a joyful, play-based foundation for lifelong
             learning. Learners in Play Group, PP1, and PP2 develop early literacy, numeracy,

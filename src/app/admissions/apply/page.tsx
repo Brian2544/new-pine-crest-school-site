@@ -7,13 +7,16 @@ const AdmissionForm = dynamic(
   () => import("@/components/forms/AdmissionForm").then((m) => m.AdmissionForm),
   {
     loading: () => (
-      <div className="space-y-6" aria-hidden>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-12 animate-pulse rounded-xl bg-slate-100" />
-          ))}
+      <div role="status">
+        <span className="sr-only">Loading admission form…</span>
+        <div className="space-y-6" aria-hidden>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-12 animate-pulse rounded-xl bg-slate-100" />
+            ))}
+          </div>
+          <div className="h-32 animate-pulse rounded-xl bg-slate-100" />
         </div>
-        <div className="h-32 animate-pulse rounded-xl bg-slate-100" />
       </div>
     ),
   },

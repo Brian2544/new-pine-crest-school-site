@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { SCHOOL } from "@/lib/constants";
 
@@ -5,7 +7,10 @@ export const alt = `${SCHOOL.name} — ${SCHOOL.slogan}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
+  const logoData = await readFile(join(process.cwd(), "public", "logo-full.png"));
+  const logoSrc = `data:image/png;base64,${logoData.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -14,44 +19,29 @@ export default function OpenGraphImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
           justifyContent: "center",
-          padding: 80,
-          background: "linear-gradient(135deg, #0d2818 0%, #1b4332 50%, #2d6a4f 100%)",
-          color: "white",
+          background: "#ffffff",
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={logoSrc} width={880} height={365} alt="" />
         <div
           style={{
+            marginTop: 40,
             display: "flex",
             alignItems: "center",
-            gap: 24,
-            marginBottom: 32,
+            gap: 16,
+            fontSize: 28,
+            color: "#1b4332",
           }}
         >
-          <div
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: 16,
-              background: "#d4a017",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 36,
-              fontWeight: 700,
-              color: "#0d2818",
-            }}
-          >
-            PC
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: 52, fontWeight: 700 }}>{SCHOOL.name}</span>
-            <span style={{ fontSize: 28, color: "#d4a017", marginTop: 8 }}>{SCHOOL.slogan}</span>
-          </div>
+          <span>Ruiru, Kihunguro</span>
+          <span style={{ color: "#d4a017" }}>•</span>
+          <span>PP1 – Grade 9</span>
+          <span style={{ color: "#d4a017" }}>•</span>
+          <span>Admissions Open</span>
         </div>
-        <p style={{ fontSize: 26, color: "#c8e6c9", maxWidth: 900, lineHeight: 1.4 }}>
-          Christian values-based CBE school in Ruiru — Play Group through Junior School
-        </p>
       </div>
     ),
     { ...size },

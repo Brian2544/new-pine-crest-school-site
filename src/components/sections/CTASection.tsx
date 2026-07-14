@@ -20,7 +20,7 @@ export function CTASection() {
             href="/admissions"
             variant="outline"
             size="lg"
-            className="border-green-900/30 text-green-950 hover:bg-green-900/10"
+            className="border-green-900/30 text-green-950 hover:bg-green-900/10 focus-visible:ring-green-900"
           >
             View Requirements
           </Button>

@@ -17,6 +17,7 @@ export function NewsletterForm() {
   });
 
   async function onSubmit(data: NewsletterFormData) {
+    setStatus("idle");
     try {
       const res = await fetch("/api/newsletter", {
         method: "POST",
@@ -40,26 +41,29 @@ export function NewsletterForm() {
         <input
           id="newsletter-email"
           type="email"
+          autoComplete="email"
           placeholder="Your email address"
-          className="w-full rounded-lg border border-green-700 bg-green-900/50 px-4 py-2.5 text-sm text-white placeholder:text-green-400 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+          className="w-full rounded-lg border border-green-700 bg-green-900/50 px-4 py-2.5 text-sm text-white placeholder:text-green-200 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+          aria-invalid={Boolean(errors.email)}
+          aria-describedby={errors.email ? "newsletter-email-error" : undefined}
           {...register("email")}
         />
         {errors.email && (
-          <p className="mt-1 text-xs text-red-300">{errors.email.message}</p>
+          <p id="newsletter-email-error" role="alert" className="mt-1 text-xs text-red-300">{errors.email.message}</p>
         )}
       </div>
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-semibold text-green-950 transition hover:bg-amber-400 disabled:opacity-50"
+        className="w-full rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-semibold text-green-950 transition hover:bg-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-green-950 disabled:opacity-50"
       >
         {isSubmitting ? "Subscribing..." : "Subscribe"}
       </button>
       {status === "success" && (
-        <p className="text-xs text-amber-300">Thank you for subscribing!</p>
+        <p role="status" className="text-xs text-amber-300">Thank you for subscribing!</p>
       )}
       {status === "error" && (
-        <p className="text-xs text-red-300">Something went wrong. Please try again.</p>
+        <p role="alert" className="text-xs text-red-300">Something went wrong. Please try again.</p>
       )}
     </form>
   );

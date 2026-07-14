@@ -11,7 +11,10 @@ export default function NotFound() {
       </p>
       <div className="mt-8 flex gap-4">
         <Button href="/">Go Home</Button>
-        <Link href="/contact" className="text-green-800 underline hover:text-green-600">
+        <Link
+          href="/contact"
+          className="rounded text-green-800 underline hover:text-green-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
+        >
           Contact Us
         </Link>
       </div>

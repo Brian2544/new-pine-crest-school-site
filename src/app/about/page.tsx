@@ -27,7 +27,7 @@ export default function AboutPage() {
       />
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbs} />
-        <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-green-950 prose-p:text-slate-600">
+        <div className="max-w-none space-y-5 text-lg leading-relaxed text-slate-600">
           <p>
             {SCHOOL.name} was founded with a clear vision: to provide quality, holistic education
             rooted in Christian values for families in Ruiru and surrounding communities. Located in

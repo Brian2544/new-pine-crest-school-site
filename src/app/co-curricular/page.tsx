@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { createMetadata } from "@/lib/seo";
@@ -5,30 +6,35 @@ import { createMetadata } from "@/lib/seo";
 export const metadata = createMetadata({
   title: "Co-Curricular Activities",
   description:
-    "Sports, games, athletics, cultural activities, and clubs at Pine Crest School Ruiru — holistic learner development beyond the classroom.",
+    "Sports, games, athletics, cultural activities, music, chess, and clubs at Pine Crest School Ruiru — holistic learner development beyond the classroom.",
   path: "/co-curricular",
 });
 
 const activities = [
   {
-    title: "Games & Sports",
+    title: "Cultural Celebrations",
+    description:
+      "Cultural day celebrations, traditional dress, music, dance, and drama that celebrate Kenya's rich heritage.",
+  },
+  {
+    title: "Sports & Games",
     description:
       "Football, athletics, and team sports that build fitness, teamwork, discipline, and school spirit.",
   },
   {
-    title: "Cultural Activities",
+    title: "Music & Performing Arts",
     description:
-      "Cultural day celebrations, music, dance, and drama that celebrate Kenya's rich heritage and learner creativity.",
+      "Violin, keyboard, recorder, and performance opportunities that nurture creativity and confidence.",
   },
   {
-    title: "Clubs & Societies",
+    title: "Chess & Clubs",
     description:
-      "Interest-based clubs that develop leadership, collaboration, and specialised skills outside core academics.",
+      "Chess, societies, and interest-based clubs that develop leadership, strategy, and collaboration.",
   },
   {
-    title: "Events & Competitions",
+    title: "Community Service",
     description:
-      "Inter-school competitions, talent shows, and community events that give learners platforms to shine.",
+      "Hands-on community projects that teach responsibility, empathy, and service to others.",
   },
 ];
 
@@ -42,16 +48,32 @@ export default function CoCurricularPage() {
     <>
       <PageHero
         title="Co-Curricular Activities"
-        description="Developing the whole child through sports, culture, and creative expression."
+        description="Empowering minds through knowledge, values and culture — shaping tomorrow's leaders today."
       />
-      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbs} />
+
+        <div className="relative mb-12 aspect-[21/9] overflow-hidden rounded-3xl bg-green-900 shadow-lg sm:aspect-[2.4/1]">
+          <Image
+            src="/images/extracurricular.jpg"
+            alt="Pine Crest School learners in cultural, sports, music, chess, and community activities"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-green-950/80 via-green-950/20 to-transparent" />
+          <p className="absolute bottom-6 left-6 right-6 font-serif text-xl font-bold text-white sm:text-2xl">
+            Sports · Arts · Clubs · Culture · Service
+          </p>
+        </div>
+
         <p className="mb-12 text-lg leading-relaxed text-slate-600">
           At Pine Crest School, co-curricular activities are integral to holistic education. Learners
           participate in programmes that enhance their physical, social, emotional, and creative
           development — building well-rounded individuals ready for life beyond academics.
         </p>
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {activities.map((activity) => (
             <article
               key={activity.title}

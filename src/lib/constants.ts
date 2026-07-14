@@ -1,12 +1,14 @@
 export const SITE_URL = "https://pinecrestschool.sc.ke";
 
+export const LOGO_PATH = "/logo.png";
+
 export const SCHOOL = {
   name: "Pine Crest School",
   slogan: "Nourishing Tomorrow's Minds",
   tagline: "A progressive, values-based day school in Ruiru, Kihunguro",
   address: "Kihunguro, behind Ruiru Star High School, Ruiru, Kenya",
   phones: ["0723720839", "0720943968"],
-  email: "info@pinecrestschool.sc.ke",
+  email: "admin@pinecrestschool.sc.ke",
   hours: "Monday – Friday, 7:30 AM – 4:30 PM",
   whatsapp: "254723720839",
   stats: {
@@ -104,6 +106,18 @@ export const PILLARS = [
 
 export const FACILITIES = [
   {
+    title: "Computer Laboratory",
+    description:
+      "Modern ICT lab supporting digital literacy, coding, research, and interactive learning from an early age.",
+    icon: "monitor" as const,
+  },
+  {
+    title: "Science Laboratory",
+    description:
+      "Well-equipped science lab for safe, hands-on experiments that prepare learners for STEM careers.",
+    icon: "school" as const,
+  },
+  {
     title: "School Transport",
     description:
       "Reliable transport services for learners in surrounding Ruiru and Kihunguro neighbourhoods.",
@@ -114,18 +128,6 @@ export const FACILITIES = [
     description:
       "Football, athletics, and diverse sporting activities that build teamwork, fitness, and character.",
     icon: "trophy" as const,
-  },
-  {
-    title: "Spacious Classrooms",
-    description:
-      "Well-ventilated, learner-friendly classrooms designed for focused, comfortable learning.",
-    icon: "school" as const,
-  },
-  {
-    title: "Digital Learning",
-    description:
-      "ICT-enabled learning with access to relevant educational technology and resources.",
-    icon: "monitor" as const,
   },
   {
     title: "Nutritious Meals",
@@ -228,14 +230,34 @@ export const FAQ_ITEMS = [
 ] as const;
 
 export const GALLERY_ITEMS = [
-  { id: 1, title: "Cultural Day 2026", category: "Events", color: "from-green-800 to-green-600" },
-  { id: 2, title: "Sports Day", category: "Sports", color: "from-amber-700 to-amber-500" },
-  { id: 3, title: "Classroom Learning", category: "Academics", color: "from-emerald-800 to-teal-600" },
-  { id: 4, title: "Science Activities", category: "Academics", color: "from-blue-800 to-blue-600" },
-  { id: 5, title: "Art & Creativity", category: "Co-Curricular", color: "from-purple-800 to-purple-600" },
-  { id: 6, title: "School Assembly", category: "Events", color: "from-rose-800 to-rose-600" },
-  { id: 7, title: "Outdoor Play", category: "Pre-Primary", color: "from-lime-800 to-lime-600" },
-  { id: 8, title: "Athletics", category: "Sports", color: "from-orange-800 to-orange-600" },
+  {
+    id: 1,
+    title: "Admissions Flyer 2026",
+    category: "Admissions",
+    image: "/images/admissions-flyer.jpg",
+    alt: "Pine Crest School admissions flyer showcasing modern laboratories and school life",
+  },
+  {
+    id: 2,
+    title: "Computer Laboratory",
+    category: "Facilities",
+    image: "/images/computer-lab.jpg",
+    alt: "Learner using a laptop in the Pine Crest School computer laboratory",
+  },
+  {
+    id: 3,
+    title: "Science Laboratory",
+    category: "Facilities",
+    image: "/images/science-lab.jpg",
+    alt: "Learners conducting science experiments in lab coats at Pine Crest School",
+  },
+  {
+    id: 4,
+    title: "Co-Curricular Life",
+    category: "Activities",
+    image: "/images/extracurricular.jpg",
+    alt: "Sports, music, clubs, culture, and community service at Pine Crest School",
+  },
 ] as const;
 
 export const NEWS_ARTICLES = [

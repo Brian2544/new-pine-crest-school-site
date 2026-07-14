@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { NAV_ITEMS, SCHOOL } from "@/lib/constants";
+import { Logo } from "@/components/ui/Logo";
 
 const NewsletterForm = dynamic(
   () => import("@/components/forms/NewsletterForm").then((m) => m.NewsletterForm),
@@ -27,12 +28,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <div
-              className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500 text-lg font-bold text-green-950"
-              aria-hidden
-            >
-              PC
-            </div>
+            <Logo variant="crest" className="mb-4 h-16 w-auto" sizes="72px" />
             <h2 className="font-serif text-xl font-bold text-white">{SCHOOL.name}</h2>
             <p className="mt-2 text-sm text-amber-300">&ldquo;{SCHOOL.slogan}&rdquo;</p>
             <p className="mt-4 text-sm leading-relaxed text-green-200/90">
