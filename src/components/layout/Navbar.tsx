@@ -41,18 +41,25 @@ export function Navbar() {
           }
         }}
       >
-        <Link href="/" prefetch className="group flex items-center gap-3" onClick={closeMobile}>
+        <Link
+          href="/"
+          prefetch
+          className="group flex min-w-0 items-center gap-2 sm:gap-3"
+          onClick={closeMobile}
+        >
           <Logo
             variant="crest"
-            className="h-12 w-auto transition-transform group-hover:scale-105"
+            className="h-12 w-auto shrink-0 transition-transform group-hover:scale-105"
             priority
             sizes="52px"
           />
-          <div className="hidden sm:block">
-            <p className="font-serif text-lg font-bold leading-tight text-green-900">
+          <div className="min-w-0">
+            <p className="font-serif text-sm font-bold leading-tight text-green-900 max-sm:truncate sm:text-lg">
               {SCHOOL.name}
             </p>
-            <p className="text-xs text-slate-600">{SCHOOL.slogan}</p>
+            <p className="text-[10px] leading-snug text-slate-600 max-sm:truncate sm:text-xs">
+              {SCHOOL.slogan}
+            </p>
           </div>
         </Link>
 
@@ -124,7 +131,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="rounded-lg p-2 text-green-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 lg:hidden"
+          className="shrink-0 rounded-lg p-2 text-green-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 lg:hidden"
           onClick={toggleMobile}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}

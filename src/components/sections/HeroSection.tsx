@@ -5,14 +5,9 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
-  CalendarDays,
-  ChevronLeft,
-  ChevronRight,
   GraduationCap,
   Leaf,
   Monitor,
-  Pause,
-  Play,
   ShieldCheck,
   Trophy,
   Users,
@@ -190,39 +185,6 @@ function HeroCarousel() {
       <p className="sr-only" aria-live="polite">
         Slide {activeIndex + 1} of {HERO_IMAGES.length}: {HERO_IMAGES[activeIndex].alt}
       </p>
-
-      <div className="absolute bottom-3 right-3 z-10 flex gap-1.5">
-        <button
-          type="button"
-          onClick={() => showSlide(activeIndex - 1, -1)}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-green-950/80 text-white shadow-md backdrop-blur-sm transition hover:bg-green-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-          aria-label="Show previous image"
-        >
-          <ChevronLeft className="h-4 w-4" aria-hidden />
-        </button>
-        <button
-          type="button"
-          onClick={() => setIsManuallyPaused((paused) => !paused)}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-green-950/80 text-white shadow-md backdrop-blur-sm transition hover:bg-green-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-          aria-label={isManuallyPaused ? "Play image carousel" : "Pause image carousel"}
-          aria-pressed={isManuallyPaused}
-        >
-          {isManuallyPaused ? (
-            <Play className="h-4 w-4" aria-hidden />
-          ) : (
-            <Pause className="h-4 w-4" aria-hidden />
-          )}
-        </button>
-        <button
-          type="button"
-          onClick={() => showSlide(activeIndex + 1, 1)}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-green-950/80 text-white shadow-md backdrop-blur-sm transition hover:bg-green-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-          aria-label="Show next image"
-        >
-          <ChevronRight className="h-4 w-4" aria-hidden />
-        </button>
-      </div>
-
     </div>
   );
 }
@@ -292,15 +254,6 @@ export function HeroSection() {
                 >
                   Admissions Open
                   <ArrowRight className="h-4 w-4" aria-hidden />
-                </Link>
-              </motion.div>
-              <motion.div whileHover={reduceMotion ? undefined : { scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 rounded-lg border-2 border-green-900 bg-white/90 px-6 py-3.5 text-sm font-bold uppercase tracking-wide text-green-950 transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
-                >
-                  Schedule a Visit
-                  <CalendarDays className="h-4 w-4" aria-hidden />
                 </Link>
               </motion.div>
             </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { WHATSAPP_CONFIG } from "@/config/forms";
 
@@ -10,16 +10,14 @@ function getWhatsAppNumber(): string | undefined {
   return value.replace(/[^\d]/g, "");
 }
 
+const emptySubscribe = () => () => {};
+
 /**
  * Client-only floating WhatsApp control.
  * Renders after mount to avoid SSR/client markup mismatches (HMR + icon SVG).
  */
 export function WhatsAppButton() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   if (!mounted) {
     return null;
