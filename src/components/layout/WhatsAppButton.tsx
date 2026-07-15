@@ -1,20 +1,58 @@
-import { MessageCircle } from "lucide-react";
-import { SCHOOL } from "@/lib/constants";
+"use client";
 
+import { useEffect, useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+import { WHATSAPP_CONFIG } from "@/config/forms";
+
+function getWhatsAppNumber(): string | undefined {
+  const value = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim();
+  if (!value) return undefined;
+  return value.replace(/[^\d]/g, "");
+}
+
+/**
+ * Client-only floating WhatsApp control.
+ * Renders after mount to avoid SSR/client markup mismatches (HMR + icon SVG).
+ */
 export function WhatsAppButton() {
-  const message = encodeURIComponent(
-    "Hello, I would like to inquire about admissions at Pine Crest School.",
-  );
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  const number = getWhatsAppNumber();
+
+  if (!number) {
+    return null;
+  }
+
+  const message = encodeURIComponent(WHATSAPP_CONFIG.prefilledMessage);
+  const href = `https://wa.me/${number}?text=${message}`;
 
   return (
     <a
-      href={`https://wa.me/${SCHOOL.whatsapp}?text=${message}`}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-green-900/30 transition hover:scale-110 hover:bg-[#20BD5A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
-      aria-label="Chat with us on WhatsApp"
+      aria-label="Chat with Admissions on WhatsApp"
+      className="group fixed bottom-5 right-5 z-[9999] inline-flex items-center justify-center overflow-hidden rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(37,211,102,0.45)] transition duration-300 ease-out hover:scale-105 hover:bg-[#20BD5A] hover:shadow-[0_10px_28px_rgba(37,211,102,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 sm:bottom-6 sm:right-6"
     >
-      <MessageCircle className="h-7 w-7" fill="currentColor" />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 animate-ping rounded-full bg-white/25"
+      />
+
+      <span className="relative z-10 flex h-14 w-14 items-center justify-center sm:h-auto sm:w-auto sm:gap-2.5 sm:px-5 sm:py-3.5">
+        <FaWhatsapp className="h-7 w-7 shrink-0" aria-hidden />
+        <span className="hidden text-sm font-semibold tracking-tight sm:inline">
+          {WHATSAPP_CONFIG.desktopLabel}
+        </span>
+      </span>
     </a>
   );
 }

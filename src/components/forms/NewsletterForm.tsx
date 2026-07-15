@@ -1,39 +1,42 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newsletterSchema, type NewsletterFormData } from "@/lib/validations";
+import { useWeb3Form } from "@/hooks/useWeb3Form";
+import { FORM_SUBJECTS, FORM_SUCCESS_MESSAGES } from "@/config/forms";
+import { BotcheckField } from "@/components/forms/BotcheckField";
 
 export function NewsletterForm() {
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const { status, errorMessage, isSubmitting, submit } = useWeb3Form();
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: isRhfSubmitting },
   } = useForm<NewsletterFormData>({
     resolver: zodResolver(newsletterSchema),
   });
 
+  const busy = isSubmitting || isRhfSubmitting;
+
   async function onSubmit(data: NewsletterFormData) {
-    setStatus("idle");
-    try {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error("Failed");
-      setStatus("success");
+    const result = await submit({
+      subject: FORM_SUBJECTS.newsletter,
+      botcheck: "",
+      fields: {
+        email: data.email,
+      },
+    });
+
+    if (result.ok) {
       reset();
-    } catch {
-      setStatus("error");
     }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+    <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-3" noValidate>
+      <BotcheckField id="newsletter-botcheck" />
       <div>
         <label htmlFor="newsletter-email" className="sr-only">
           Email address
@@ -54,16 +57,17 @@ export function NewsletterForm() {
       </div>
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={busy}
+        aria-busy={busy}
         className="w-full rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-semibold text-green-950 transition hover:bg-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-green-950 disabled:opacity-50"
       >
-        {isSubmitting ? "Subscribing..." : "Subscribe"}
+        {busy ? "Subscribing..." : "Subscribe"}
       </button>
       {status === "success" && (
-        <p role="status" className="text-xs text-amber-300">Thank you for subscribing!</p>
+        <p role="status" className="text-xs text-amber-300">{FORM_SUCCESS_MESSAGES.newsletter}</p>
       )}
       {status === "error" && (
-        <p role="alert" className="text-xs text-red-300">Something went wrong. Please try again.</p>
+        <p role="alert" className="text-xs text-red-300">{errorMessage}</p>
       )}
     </form>
   );

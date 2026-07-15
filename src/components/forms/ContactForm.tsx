@@ -1,34 +1,43 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactSchema, type ContactFormData } from "@/lib/validations";
+import { useWeb3Form } from "@/hooks/useWeb3Form";
+import { FORM_SUBJECTS, FORM_SUCCESS_MESSAGES } from "@/config/forms";
+import { BotcheckField } from "@/components/forms/BotcheckField";
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const { status, errorMessage, isSubmitting, submit } = useWeb3Form();
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: isRhfSubmitting },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
   });
 
+  const busy = isSubmitting || isRhfSubmitting;
+
   async function onSubmit(data: ContactFormData) {
-    setStatus("idle");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error("Failed");
-      setStatus("success");
+    const result = await submit({
+      subject: FORM_SUBJECTS.contact,
+      botcheck: "",
+      fields: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        "Enquiry Subject": data.subject,
+        message: data.message,
+      },
+      hiddenFields: {
+        from_name: data.name,
+      },
+    });
+
+    if (result.ok) {
       reset();
-    } catch {
-      setStatus("error");
     }
   }
 
@@ -36,7 +45,9 @@ export function ContactForm() {
     "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 transition focus:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600/20";
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-6" noValidate>
+      <BotcheckField id="contact-botcheck" />
+
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700">
@@ -117,20 +128,21 @@ export function ContactForm() {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={busy}
+        aria-busy={busy}
         className="rounded-full bg-green-800 px-8 py-3 font-semibold text-white transition hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 disabled:opacity-50"
       >
-        {isSubmitting ? "Sending..." : "Send Message"}
+        {busy ? "Sending..." : "Send Message"}
       </button>
 
       {status === "success" && (
         <div role="status" className="rounded-xl border border-green-200 bg-green-50 p-4 text-green-800">
-          Message sent! We will get back to you soon.
+          {FORM_SUCCESS_MESSAGES.contact}
         </div>
       )}
       {status === "error" && (
         <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
-          Failed to send. Please try again or call us directly.
+          {errorMessage}
         </div>
       )}
     </form>

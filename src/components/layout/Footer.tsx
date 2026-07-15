@@ -88,7 +88,10 @@ export function Footer() {
           <p>
             &copy; {new Date().getFullYear()} {SCHOOL.name}. All rights reserved.
           </p>
-          <nav aria-label="Footer navigation" className="flex gap-6">
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-wrap justify-center gap-x-6 gap-y-2 sm:justify-end sm:gap-6"
+          >
             {NAV_ITEMS.slice(0, 4).map((item) => (
               <Link key={item.href} href={item.href} prefetch className="hover:text-amber-300">
                 {item.label}

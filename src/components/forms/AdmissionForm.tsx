@@ -1,35 +1,46 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GRADE_OPTIONS } from "@/lib/constants";
 import { admissionSchema, type AdmissionFormData } from "@/lib/validations";
+import { useWeb3Form } from "@/hooks/useWeb3Form";
+import { FORM_SUBJECTS, FORM_SUCCESS_MESSAGES } from "@/config/forms";
+import { BotcheckField } from "@/components/forms/BotcheckField";
 
 export function AdmissionForm() {
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const { status, errorMessage, isSubmitting, submit } = useWeb3Form();
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: isRhfSubmitting },
   } = useForm<AdmissionFormData>({
     resolver: zodResolver(admissionSchema),
   });
 
+  const busy = isSubmitting || isRhfSubmitting;
+
   async function onSubmit(data: AdmissionFormData) {
-    setStatus("idle");
-    try {
-      const res = await fetch("/api/admissions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error("Failed");
-      setStatus("success");
+    const result = await submit({
+      subject: FORM_SUBJECTS.admissions,
+      botcheck: "",
+      fields: {
+        "Parent / Guardian Name": data.parentName,
+        email: data.email,
+        phone: data.phone,
+        "Child's Name": data.childName,
+        "Date of Birth": data.dateOfBirth,
+        "Grade Applying For": data.grade,
+        message: data.message || "—",
+      },
+      hiddenFields: {
+        from_name: data.parentName,
+      },
+    });
+
+    if (result.ok) {
       reset();
-    } catch {
-      setStatus("error");
     }
   }
 
@@ -37,7 +48,9 @@ export function AdmissionForm() {
     "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 transition focus:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600/20";
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-6" noValidate>
+      <BotcheckField id="admission-botcheck" />
+
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <label htmlFor="parentName" className="mb-2 block text-sm font-medium text-slate-700">
@@ -52,7 +65,9 @@ export function AdmissionForm() {
             {...register("parentName")}
           />
           {errors.parentName && (
-            <p id="parent-name-error" role="alert" className="mt-1 text-sm text-red-600">{errors.parentName.message}</p>
+            <p id="parent-name-error" role="alert" className="mt-1 text-sm text-red-600">
+              {errors.parentName.message}
+            </p>
           )}
         </div>
         <div>
@@ -69,7 +84,9 @@ export function AdmissionForm() {
             {...register("phone")}
           />
           {errors.phone && (
-            <p id="admission-phone-error" role="alert" className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+            <p id="admission-phone-error" role="alert" className="mt-1 text-sm text-red-600">
+              {errors.phone.message}
+            </p>
           )}
         </div>
         <div>
@@ -86,7 +103,9 @@ export function AdmissionForm() {
             {...register("email")}
           />
           {errors.email && (
-            <p id="admission-email-error" role="alert" className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+            <p id="admission-email-error" role="alert" className="mt-1 text-sm text-red-600">
+              {errors.email.message}
+            </p>
           )}
         </div>
         <div>
@@ -102,7 +121,9 @@ export function AdmissionForm() {
             {...register("childName")}
           />
           {errors.childName && (
-            <p id="child-name-error" role="alert" className="mt-1 text-sm text-red-600">{errors.childName.message}</p>
+            <p id="child-name-error" role="alert" className="mt-1 text-sm text-red-600">
+              {errors.childName.message}
+            </p>
           )}
         </div>
         <div>
@@ -119,7 +140,9 @@ export function AdmissionForm() {
             {...register("dateOfBirth")}
           />
           {errors.dateOfBirth && (
-            <p id="date-of-birth-error" role="alert" className="mt-1 text-sm text-red-600">{errors.dateOfBirth.message}</p>
+            <p id="date-of-birth-error" role="alert" className="mt-1 text-sm text-red-600">
+              {errors.dateOfBirth.message}
+            </p>
           )}
         </div>
         <div>
@@ -144,7 +167,9 @@ export function AdmissionForm() {
             ))}
           </select>
           {errors.grade && (
-            <p id="grade-error" role="alert" className="mt-1 text-sm text-red-600">{errors.grade.message}</p>
+            <p id="grade-error" role="alert" className="mt-1 text-sm text-red-600">
+              {errors.grade.message}
+            </p>
           )}
         </div>
       </div>
@@ -170,21 +195,21 @@ export function AdmissionForm() {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={busy}
+        aria-busy={busy}
         className="w-full rounded-full bg-green-800 px-8 py-4 font-semibold text-white transition hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 disabled:opacity-50 sm:w-auto"
       >
-        {isSubmitting ? "Submitting..." : "Submit Application"}
+        {busy ? "Submitting..." : "Submit Application"}
       </button>
 
       {status === "success" && (
         <div role="status" className="rounded-xl border border-green-200 bg-green-50 p-4 text-green-800">
-          Thank you! Your application has been received. Our admissions office will contact you
-          shortly.
+          {FORM_SUCCESS_MESSAGES.admissions}
         </div>
       )}
       {status === "error" && (
         <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
-          Something went wrong. Please try again or contact us directly.
+          {errorMessage}
         </div>
       )}
     </form>
