@@ -53,11 +53,14 @@ export function Navbar() {
             priority
             sizes="52px"
           />
-          <div className="min-w-0">
-            <p className="font-serif text-sm font-bold leading-tight text-green-900 max-sm:truncate sm:text-lg">
-              {SCHOOL.name}
+          <div className="min-w-0 text-center">
+            <p className="font-serif text-[13px] font-bold uppercase leading-none tracking-wide text-green-800 sm:text-[15px]">
+              Pine Crest
             </p>
-            <p className="text-[10px] leading-snug text-slate-600 max-sm:truncate sm:text-xs">
+            <p className="mt-0.5 font-serif text-[10px] font-semibold uppercase leading-none tracking-[0.38em] text-green-800 sm:text-[12px] sm:tracking-[0.48em]">
+              School
+            </p>
+            <p className="mt-0.5 whitespace-nowrap text-[7px] font-medium leading-none text-black sm:text-[8px]">
               {SCHOOL.slogan}
             </p>
           </div>
