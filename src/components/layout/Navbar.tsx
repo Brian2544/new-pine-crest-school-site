@@ -62,6 +62,8 @@ export function Navbar() {
               <li
                 key={item.label}
                 className="relative"
+                onMouseEnter={() => openMenu(item.label)}
+                onMouseLeave={closeMenu}
                 onBlur={(event) => {
                   if (!event.currentTarget.contains(event.relatedTarget)) closeMenu();
                 }}
@@ -71,8 +73,6 @@ export function Navbar() {
                   className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-green-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 ${
                     pathname.startsWith(item.href) ? "text-green-800" : "text-slate-700"
                   }`}
-                  onMouseEnter={() => openMenu(item.label)}
-                  onMouseLeave={closeMenu}
                   onClick={() => toggleMenu(item.label)}
                   aria-expanded={openDropdown === item.label}
                   aria-haspopup="true"
@@ -84,8 +84,6 @@ export function Navbar() {
                 {openDropdown === item.label && (
                   <div
                     className="absolute left-0 top-full z-50 min-w-[220px] rounded-xl border border-green-100 bg-white p-2 shadow-xl"
-                    onMouseEnter={() => openMenu(item.label)}
-                    onMouseLeave={closeMenu}
                     id={`desktop-menu-${item.label.toLowerCase().replaceAll(" ", "-")}`}
                   >
                     {item.children.map((child) => (

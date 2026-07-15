@@ -53,19 +53,16 @@ export default function CoCurricularPage() {
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbs} />
 
-        <div className="relative mb-12 aspect-[21/9] overflow-hidden rounded-3xl bg-green-900 shadow-lg sm:aspect-[2.4/1]">
+        <div className="relative mb-12 aspect-[3/2] overflow-hidden rounded-3xl bg-green-900 shadow-lg">
           <Image
-            src="/images/extracurricular.jpg"
+            src="/images/co-curricular-showcase.png"
             alt="Pine Crest School learners in cultural, sports, music, chess, and community activities"
             fill
-            className="object-cover"
+            quality={92}
+            className="object-cover object-center"
             sizes="(max-width: 1024px) 100vw, 1024px"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-green-950/80 via-green-950/20 to-transparent" />
-          <p className="absolute bottom-6 left-6 right-6 font-serif text-xl font-bold text-white sm:text-2xl">
-            Sports · Arts · Clubs · Culture · Service
-          </p>
         </div>
 
         <p className="mb-12 text-lg leading-relaxed text-slate-600">
